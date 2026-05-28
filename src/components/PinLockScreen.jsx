@@ -73,14 +73,13 @@ export default function PinLockScreen({ onUnlock }) {
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-bg-primary">
       <div className="flex flex-col items-center px-6 w-full max-w-[360px] animate-fade-in z-10">
         
-        <div className="mb-6">
-          <div className="w-[80px] h-[80px] rounded-[24px] flex items-center justify-center mx-auto shadow-[0_8px_32px_rgba(79,70,229,0.25)] bg-accent-primary">
-            <span className="text-[36px] font-extrabold text-white tracking-tight">#</span>
+        <div className="flex flex-col items-center mb-10 animate-slide-up stagger-1">
+          <div className="w-20 h-20 rounded-[24px] flex items-center justify-center mb-6 shadow-[0_8px_32px_rgba(79,70,229,0.3)] bg-accent-primary">
+            <span className="text-4xl font-extrabold text-white">👧</span>
           </div>
+          <h2 className="text-[28px] font-bold text-text-primary tracking-tight">Welcome back</h2>
+          <p className="text-[14px] text-text-secondary mt-1 font-medium">Enter your PIN to continue</p>
         </div>
-
-        <h1 className="text-[24px] font-bold text-text-primary mb-1 tracking-tight">Welcome back</h1>
-        <p className="text-[14px] font-medium text-text-secondary mb-12">Enter your PIN to continue</p>
 
         <div className={`flex gap-6 mb-8 ${error ? 'animate-shake' : ''}`}>
           {Array.from({ length: PIN_LENGTH }).map((_, i) => (

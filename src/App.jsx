@@ -28,7 +28,7 @@ export default function App() {
       <div className="fixed inset-0 flex items-center justify-center bg-bg-primary">
         <div className="flex flex-col items-center animate-fade-in">
           <div className="w-16 h-16 rounded-[20px] flex items-center justify-center mb-6 shadow-[0_8px_32px_rgba(79,70,229,0.25)] bg-accent-primary">
-            <span className="text-3xl font-extrabold text-white">#</span>
+            <span className="text-3xl font-extrabold text-white">👧</span>
           </div>
           <div className="w-8 h-8 border-[3px] border-[rgba(255,255,255,0.05)] border-t-accent-primary rounded-full animate-spin" />
         </div>
