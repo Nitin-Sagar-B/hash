@@ -11,7 +11,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
-        name: 'Hash — Sparky\\'s AI Coach',
+        name: "Hash — Sparky's AI Coach",
         short_name: 'Hash',
         description: 'Your cute AI fitness bestie — track macros, crush goals, and stay active',
         theme_color: '#09090B',
