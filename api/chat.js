@@ -18,29 +18,9 @@ export default async function handler(req) {
         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
+        model: 'gpt-4o-mini',
         messages: messages,
         stream: true,
-        tools: [
-          {
-            type: 'function',
-            function: {
-              name: 'web_search',
-              description: 'Search the web for nutrition information, food macro data, or any other fitness-related query. Use this whenever Nit logs food to get accurate macro values.',
-              parameters: {
-                type: 'object',
-                properties: {
-                  query: {
-                    type: 'string',
-                    description: 'The search query, e.g. "2 chapati roti nutrition macros calories protein"'
-                  }
-                },
-                required: ['query']
-              }
-            }
-          }
-        ],
-        tool_choice: 'auto',
         temperature: 0.7,
         max_tokens: 2000
       })

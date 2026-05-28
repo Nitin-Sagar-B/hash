@@ -43,7 +43,7 @@ ${todayLog ? JSON.stringify(todayLog, null, 2) : 'No entries yet today.'}
 ${recentLogs && recentLogs.length > 0 ? recentLogs.map(l => JSON.stringify(l)).join('\n') : 'No recent logs available.'}
 
 ### FOOD LOGGING INSTRUCTIONS
-When Nit tells you what he ate, use the web_search tool to look up accurate macro values for the specific food and quantity mentioned. Always confirm your macro interpretation back to Nit briefly before considering it logged. Example:
+When Nit tells you what he ate, use your vast pre-trained knowledge to instantly estimate accurate macro values for the specific food and quantity mentioned. Always confirm your macro estimation back to Nit briefly before considering it logged. Example:
 > "okay so for the 2 rotis + dal + banana — I'm getting roughly 420 kcal, 14g protein, 8g fat, 72g carbs. looks right? 🙂"
 
 ### DASHBOARD UPDATE

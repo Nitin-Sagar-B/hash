@@ -14,9 +14,16 @@ export const useAppStore = create((set, get) => ({
   unlock: () => set({ isUnlocked: true }),
   lock: () => set({ isUnlocked: false }),
 
-  // ==================== Navigation ====================
+  // ==================== Navigation & Calendar ====================
   activeView: 'dashboard',
   setActiveView: (view) => set({ activeView: view }),
+  selectedDate: getTodayDate(),
+  selectedLog: createEmptyDayLog(getTodayDate()),
+  setSelectedDate: async (date) => {
+    set({ selectedDate: date });
+    const log = await getDayLog(date) || createEmptyDayLog(date);
+    set({ selectedLog: log });
+  },
 
   // ==================== User Profile ====================
   userProfile: { ...DEFAULT_PROFILE },
@@ -48,13 +55,16 @@ export const useAppStore = create((set, get) => ({
   // ==================== Macro Goals ====================
   macroGoals: calculateMacros(DEFAULT_PROFILE.currentWeight),
 
-  // ==================== Today's Log ====================
+  // ==================== Today's Log & Updates ====================
   todayLog: createEmptyDayLog(getTodayDate()),
   updateTodayLog: async (updates) => {
     const current = get().todayLog;
     const updated = { ...current, ...updates };
     set({ todayLog: updated });
     await saveDayLog(updated);
+    if (get().selectedDate === getTodayDate()) {
+      set({ selectedLog: updated });
+    }
   },
   applyDashboardUpdate: async (data) => {
     if (!data?.today) return;
@@ -75,6 +85,9 @@ export const useAppStore = create((set, get) => ({
     };
     set({ todayLog: updated });
     await saveDayLog(updated);
+    if (get().selectedDate === getTodayDate()) {
+      set({ selectedLog: updated });
+    }
   },
 
   // ==================== Chat ====================
@@ -170,10 +183,10 @@ export const useAppStore = create((set, get) => ({
       const today = getTodayDate();
       const todayLog = await getDayLog(today);
       if (todayLog) {
-        set({ todayLog });
+        set({ todayLog, selectedLog: todayLog });
       } else {
         const newLog = createEmptyDayLog(today);
-        set({ todayLog: newLog });
+        set({ todayLog: newLog, selectedLog: newLog });
       }
 
       // Load chat messages
