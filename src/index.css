@@ -2,41 +2,36 @@
 
 /* ============================================
    Hash — Design System & Tokens
-   Pantone Dark Theme & iOS Rounding
+   Pantone Black 6 C & Section Architecture
    ============================================ */
 
 @theme {
-  /* Pantone-inspired deep darks */
-  --color-bg-primary: #0F0F13; /* Pantone 19-4007 TCX Anthracite */
-  --color-bg-surface: #1A1A21; /* Pantone 19-3911 TCX Black Beauty */
-  --color-bg-elevated: #23232C; 
-  --color-bg-input: #1C1C24;
+  /* True Pantone Dark Navy/Black Palette */
+  --color-bg-primary: #101820; /* Pantone Black 6 C */
+  --color-bg-surface: #1A232C; /* Pantone 432 C (Lighter for sections) */
+  --color-bg-elevated: #212C37; /* For active/hover states */
+  --color-bg-input: #151E28;
 
-  --color-text-primary: #F4F4F7;
-  --color-text-secondary: #8E8E9F;
-  --color-text-tertiary: #5C5C6B;
+  --color-text-primary: #F0F2F5;
+  --color-text-secondary: #9AA6B2;
+  --color-text-tertiary: #677582;
 
-  /* Refined Sleek Neon Accents */
+  /* Vivid Pantone-inspired Accents */
   --color-accent-calories: #FF4D4D; /* Vivid Red */
   --color-accent-protein: #00E676; /* Vibrant Green */
-  --color-accent-fat: #FFC400; /* Amber */
-  --color-accent-carbs: #9D4EDD; /* Deep Purple */
-  --color-accent-fiber: #FF4081; /* Pink */
-  --color-accent-water: #00B0FF; /* Light Blue */
-  --color-accent-primary: #4338CA; /* Pantone Deep Indigo */
+  --color-accent-fat: #FFB300; /* Amber */
+  --color-accent-carbs: #B388FF; /* Deep Purple */
+  --color-accent-fiber: #F06292; /* Pink */
+  --color-accent-water: #40C4FF; /* Light Blue */
+  --color-accent-primary: #4F46E5; /* Vibrant Indigo */
   --color-accent-success: #10B981;
-  --color-accent-error: #EF4444;
+  --color-accent-error: #F43F5E;
 
-  /* Sleek Glassmorphism */
-  --color-glass-bg: rgba(26, 26, 33, 0.65);
-  --color-glass-border: rgba(255, 255, 255, 0.04);
-  --color-glass-hover: rgba(26, 26, 33, 0.85);
-
-  /* iOS App Rounding */
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 26px;
+  /* Structural Rounding */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-2xl: 32px;
   --radius-full: 9999px;
 }
@@ -80,53 +75,63 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
 
 /* ============================================
-   Glass Card Utilities (Sleek)
+   Structural Section Blocks
    ============================================ */
 
-.glass-card {
-  background: var(--color-glass-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--color-glass-border);
-  border-radius: var(--radius-xl);
-  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-}
-
-.glass-card:hover {
-  background: var(--color-glass-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.glass-card-solid {
+.section-block {
   background: var(--color-bg-surface);
-  border: 1px solid var(--color-glass-border);
   border-radius: var(--radius-xl);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-.glass-nav {
-  background: rgba(15, 15, 19, 0.88);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
-  border-top: 1px solid var(--color-glass-border);
+.section-header {
+  padding: 16px 20px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.section-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 0.2s;
+}
+
+.section-row:last-child {
+  border-bottom: none;
+}
+
+.solid-nav {
+  background: var(--color-bg-surface);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.solid-header {
+  background: var(--color-bg-surface);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* ============================================
-   Keyframe Animations (Sleek & Professional)
+   Keyframe Animations
    ============================================ */
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -140,30 +145,9 @@ body {
   to { opacity: 1; }
 }
 
-@keyframes fadeInScale {
-  from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-4px); }
-  40%, 80% { transform: translateX(4px); }
-}
-
-@keyframes dotFill {
-  0% { transform: scale(0.8); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
 @keyframes bounceSleek {
   0%, 100% { transform: translateY(0); opacity: 0.5; }
   50% { transform: translateY(-3px); opacity: 1; }
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
 }
 
 /* ============================================
@@ -185,62 +169,31 @@ body {
   opacity: 0;
 }
 
-.animate-fade-in-scale {
-  animation: fadeInScale 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  opacity: 0;
-}
-
-.animate-shake {
-  animation: shake 0.3s ease-out;
-}
-
-.animate-dot-fill {
-  animation: dotFill 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
 .animate-pulse-subtle {
   animation: bounceSleek 1.5s infinite;
 }
 
-.stagger-1 { animation-delay: 0.04s; }
-.stagger-2 { animation-delay: 0.08s; }
-.stagger-3 { animation-delay: 0.12s; }
-.stagger-4 { animation-delay: 0.16s; }
-.stagger-5 { animation-delay: 0.20s; }
-.stagger-6 { animation-delay: 0.24s; }
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
 
 /* ============================================
-   Typing Indicator (Sleek)
-   ============================================ */
-
-.typing-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: var(--color-text-secondary);
-  animation: bounceSleek 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
-}
-
-.typing-dot:nth-child(1) { animation-delay: 0s; }
-.typing-dot:nth-child(2) { animation-delay: 0.15s; }
-.typing-dot:nth-child(3) { animation-delay: 0.3s; }
-
-/* ============================================
-   Chat Styles (iOS Bubble Padding)
+   Chat Styles
    ============================================ */
 
 .chat-message-user {
-  background: linear-gradient(135deg, var(--color-accent-primary), #6366F1);
+  background: var(--color-accent-primary);
   color: white;
-  border-radius: var(--radius-lg) var(--radius-lg) 6px var(--radius-lg);
-  box-shadow: 0 4px 16px rgba(67, 56, 202, 0.25);
+  border-radius: 20px 20px 4px 20px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
 }
 
 .chat-message-hash {
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-glass-border);
-  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background: var(--color-bg-surface);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 20px 20px 20px 4px;
 }
 
 /* ============================================
@@ -254,15 +207,6 @@ body {
 /* ============================================
    Custom Utilities
    ============================================ */
-
-.text-gradient {
-  background: linear-gradient(135deg, #818CF8, #C084FC);
-  background-size: 200% 200%;
-  animation: gradientShift 4s ease infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;

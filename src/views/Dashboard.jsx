@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useAppStore } from '../store/useAppStore.js';
 import ProgressRing from '../components/ProgressRing.jsx';
-import MacroCard from '../components/MacroCard.jsx';
-import StepProgress from '../components/StepProgress.jsx';
 import WeightChart from '../components/WeightChart.jsx';
 
 export default function Dashboard() {
@@ -24,7 +22,6 @@ export default function Dashboard() {
     }
   };
 
-  // Time-based greeting
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
@@ -36,37 +33,44 @@ export default function Dashboard() {
 
   return (
     <div className="flex-1 overflow-y-auto pb-28 no-scrollbar">
-      <div className="max-w-lg mx-auto px-6 pt-8">
+      {/* Bulletproof container: exactly 20px padding on each side on small screens, max 500px wide */}
+      <div className="w-[calc(100%-40px)] max-w-[500px] mx-auto pt-6 sm:pt-8">
 
         {/* Header */}
-        <div className="mb-8 animate-slide-up stagger-1">
-          <h1 className="text-3xl font-bold text-text-primary tracking-tight">
-            {greeting}, <span className="text-gradient">Nit</span>
+        <div className="mb-6 animate-slide-up stagger-1">
+          <h1 className="text-[28px] font-bold text-text-primary tracking-tight">
+            {greeting}, <span className="text-accent-primary">{userProfile.name || 'Nit'}</span>
           </h1>
-          <p className="text-sm text-text-secondary mt-1 font-medium">{today}</p>
+          <p className="text-[13px] font-semibold text-text-secondary mt-1 tracking-wide">{today}</p>
         </div>
 
-        {/* Macro Rings */}
-        <div className="animate-slide-up stagger-2 mb-6">
-          <div className="glass-card p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-base font-semibold text-text-primary tracking-tight">Today's Macros</h2>
-              <span className="text-xs font-medium text-text-tertiary px-3 py-1 bg-[rgba(255,255,255,0.04)] rounded-full">
-                {userProfile.currentWeight} kg
-              </span>
+        {/* SECTION: NUTRITION HUB */}
+        <div className="section-block mb-6 animate-slide-up stagger-2">
+          <div className="section-header flex justify-between items-center">
+            <span>Today's Nutrition</span>
+            <span className="text-[10px] bg-[rgba(255,255,255,0.05)] px-2 py-0.5 rounded text-text-tertiary">{userProfile.currentWeight} kg</span>
+          </div>
+          
+          <div className="p-5">
+            {/* Calories Summary */}
+            <div className="flex items-center justify-between mb-6 pb-5 border-b border-[rgba(255,255,255,0.04)]">
+              <div>
+                <span className="text-[11px] font-bold text-text-secondary uppercase tracking-widest">Remaining</span>
+                <div className="flex items-baseline gap-1 mt-1">
+                  <span className="text-4xl font-extrabold text-text-primary tracking-tighter">
+                    {Math.max(0, macroGoals.calories - todayLog.caloriesConsumed)}
+                  </span>
+                  <span className="text-sm font-semibold text-text-tertiary">kcal</span>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-[11px] font-bold text-text-secondary uppercase tracking-widest block">Target</span>
+                <span className="text-lg font-bold text-text-primary mt-1">{macroGoals.calories}</span>
+              </div>
             </div>
-            <div className="grid grid-cols-4 gap-2 justify-items-center">
-              <ProgressRing
-                progress={macroGoals.calories > 0 ? (todayLog.caloriesConsumed / macroGoals.calories) * 100 : 0}
-                size={76}
-                strokeWidth={7}
-                color="var(--color-accent-calories)"
-                label="Calories"
-                value={todayLog.caloriesConsumed}
-                goal={macroGoals.calories}
-                unit="kcal"
-                showGoal={false}
-              />
+
+            {/* Macro Rings Grid */}
+            <div className="grid grid-cols-3 gap-2 justify-items-center">
               <ProgressRing
                 progress={macroGoals.protein > 0 ? (todayLog.proteinG / macroGoals.protein) * 100 : 0}
                 size={76}
@@ -101,163 +105,143 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Calorie summary card */}
-        <div className="animate-slide-up stagger-3 mb-5">
-          <div className="glass-card p-5 relative overflow-hidden flex items-center justify-between">
-            <div className="absolute top-0 left-0 w-1 h-full" style={{
-              background: 'linear-gradient(180deg, var(--color-accent-calories), var(--color-accent-carbs))',
-            }} />
-            <div className="pl-3">
-              <span className="text-[11px] text-text-secondary font-semibold uppercase tracking-widest">Calories Remaining</span>
-              <div className="flex items-baseline gap-1.5 mt-0.5">
-                <span className="text-3xl font-bold text-text-primary tracking-tight">
-                  {Math.max(0, macroGoals.calories - todayLog.caloriesConsumed)}
-                </span>
-                <span className="text-sm font-medium text-text-secondary">kcal</span>
+        {/* SECTION: DAILY GOALS */}
+        <div className="section-block mb-6 animate-slide-up stagger-3">
+          <div className="section-header">Daily Goals</div>
+          
+          <div className="section-row">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">🚶</div>
+              <span className="text-[14px] font-semibold text-text-primary">Steps</span>
+            </div>
+            <div className="text-right flex items-center gap-3">
+              <div className="flex flex-col items-end">
+                <span className="text-[15px] font-bold text-text-primary">{todayLog.steps.toLocaleString()}</span>
+                <span className="text-[11px] text-text-tertiary font-medium">/ {userProfile.stepsGoal.toLocaleString()}</span>
               </div>
+              <div className="w-8 h-8 rounded-full border-2 border-[rgba(255,255,255,0.05)] relative overflow-hidden">
+                 <div className="absolute bottom-0 left-0 right-0 bg-text-primary transition-all duration-1000" 
+                      style={{ height: `${Math.min((todayLog.steps / userProfile.stepsGoal) * 100, 100)}%` }} />
+              </div>
+            </div>
+          </div>
+
+          <div className="section-row">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">💧</div>
+              <span className="text-[14px] font-semibold text-text-primary">Water</span>
+            </div>
+            <div className="text-right flex items-center gap-3">
+              <div className="flex flex-col items-end">
+                <span className="text-[15px] font-bold text-text-primary">{todayLog.waterMl.toLocaleString()} ml</span>
+                <span className="text-[11px] text-text-tertiary font-medium">/ {macroGoals.water.toLocaleString()} ml</span>
+              </div>
+              <div className="w-8 h-8 rounded-full border-2 border-[rgba(255,255,255,0.05)] relative overflow-hidden">
+                 <div className="absolute bottom-0 left-0 right-0 bg-accent-water transition-all duration-1000" 
+                      style={{ height: `${Math.min((todayLog.waterMl / macroGoals.water) * 100, 100)}%` }} />
+              </div>
+            </div>
+          </div>
+
+          <div className="section-row">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">🥬</div>
+              <span className="text-[14px] font-semibold text-text-primary">Fiber</span>
+            </div>
+            <div className="text-right flex items-center gap-3">
+              <div className="flex flex-col items-end">
+                <span className="text-[15px] font-bold text-text-primary">{todayLog.fiberG} g</span>
+                <span className="text-[11px] text-text-tertiary font-medium">/ {macroGoals.fiber} g</span>
+              </div>
+              <div className="w-8 h-8 rounded-full border-2 border-[rgba(255,255,255,0.05)] relative overflow-hidden">
+                 <div className="absolute bottom-0 left-0 right-0 bg-accent-fiber transition-all duration-1000" 
+                      style={{ height: `${Math.min((todayLog.fiberG / macroGoals.fiber) * 100, 100)}%` }} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* SECTION: INSIGHTS */}
+        <div className="section-block mb-6 animate-slide-up stagger-4">
+          <div className="section-header">Insights & Streaks</div>
+          
+          <div className="section-row">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">🏋️</div>
+              <span className="text-[14px] font-semibold text-text-primary">Workouts</span>
             </div>
             <div className="text-right">
-              <span className="text-[11px] text-text-tertiary font-semibold uppercase tracking-widest block">Target</span>
-              <span className="text-sm text-text-secondary font-semibold mt-0.5">{macroGoals.calories} kcal</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Stats Grid */}
-        <div className="grid grid-cols-2 gap-4 mb-5">
-          <div className="animate-slide-up stagger-3">
-            <MacroCard
-              label="Fiber"
-              icon="🥬"
-              value={todayLog.fiberG}
-              goal={macroGoals.fiber}
-              unit="g"
-              color="var(--color-accent-fiber)"
-            />
-          </div>
-          <div className="animate-slide-up stagger-4">
-            <MacroCard
-              label="Water"
-              icon="💧"
-              value={todayLog.waterMl}
-              goal={macroGoals.water}
-              unit="ml"
-              color="var(--color-accent-water)"
-            />
-          </div>
-        </div>
-
-        {/* Steps */}
-        <div className="animate-slide-up stagger-4 mb-5">
-          <StepProgress steps={todayLog.steps} goal={userProfile.stepsGoal} />
-        </div>
-
-        {/* Streaks & Workout */}
-        <div className="grid grid-cols-2 gap-4 mb-5">
-          <div className="animate-slide-up stagger-5 h-full">
-            <div className="glass-card p-5 h-full flex flex-col justify-between">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-lg">🏋️</span>
-                <span className="text-[11px] text-text-secondary font-semibold uppercase tracking-widest">This Week</span>
-              </div>
-              <div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-2xl font-bold text-text-primary tracking-tight">{streaks.trainingDaysThisWeek}</span>
-                  <span className="text-xs font-medium text-text-secondary">/ 4 days</span>
+              <span className="text-[15px] font-bold text-text-primary">{streaks.trainingDaysThisWeek} <span className="text-[12px] font-medium text-text-tertiary">/ 4 days</span></span>
+              {todayLog.workoutDone && (
+                <div className="text-[10px] font-bold text-accent-success uppercase tracking-wider mt-1 flex items-center justify-end gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent-success animate-pulse-subtle" />
+                  Done Today
                 </div>
-                {todayLog.workoutDone && (
-                  <div className="mt-3 inline-flex items-center text-[10px] bg-accent-success/10 text-accent-success px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent-success mr-1.5 animate-pulse-subtle"></div>
-                    Done Today
-                  </div>
-                )}
-              </div>
+              )}
             </div>
           </div>
-          <div className="animate-slide-up stagger-5 h-full">
-            <div className="glass-card p-5 h-full flex flex-col justify-between">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-lg">🔥</span>
-                <span className="text-[11px] text-text-secondary font-semibold uppercase tracking-widest">Protein Streak</span>
-              </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-bold text-accent-success tracking-tight">{streaks.proteinGoalHitStreak}</span>
-                <span className="text-xs font-medium text-text-secondary">days</span>
-              </div>
+
+          <div className="section-row">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">🔥</div>
+              <span className="text-[14px] font-semibold text-text-primary">Protein Streak</span>
+            </div>
+            <div className="text-right">
+              <span className="text-[15px] font-bold text-accent-success">{streaks.proteinGoalHitStreak} <span className="text-[12px] font-medium text-text-tertiary">days</span></span>
+            </div>
+          </div>
+
+          <div className="section-row">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">😴</div>
+              <span className="text-[14px] font-semibold text-text-primary">Sleep</span>
+            </div>
+            <div className="text-right">
+              <span className={`text-[15px] font-bold ${todayLog.sleepHrs >= 7 ? 'text-accent-success' : 'text-text-primary'}`}>
+                {todayLog.sleepHrs || '—'} <span className="text-[12px] font-medium text-text-tertiary">/ 7-9 hrs</span>
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Sleep */}
-        <div className="animate-slide-up stagger-5 mb-5">
-          <div className="glass-card p-5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.04)] flex items-center justify-center text-lg">
-                  😴
+        {/* SECTION: WEIGHT TREND */}
+        <div className="section-block mb-6 animate-slide-up stagger-5">
+          <div className="section-header">Weight Trend</div>
+          <div className="p-4">
+            <WeightChart data={weightHistory} />
+          </div>
+          
+          <div className="border-t border-[rgba(255,255,255,0.04)]">
+            {showWeightInput ? (
+              <div className="p-4 bg-[rgba(255,255,255,0.02)] animate-fade-in">
+                <div className="flex gap-3">
+                  <input
+                    type="number"
+                    value={weightInput}
+                    onChange={(e) => setWeightInput(e.target.value)}
+                    placeholder="e.g. 78.5"
+                    step="0.1"
+                    className="flex-1 bg-bg-input border border-[rgba(255,255,255,0.05)] rounded-xl px-4 py-3 text-[14px] font-bold text-text-primary outline-none focus:border-accent-primary"
+                  />
+                  <button onClick={handleWeightSubmit} className="px-5 py-3 bg-accent-primary text-white rounded-xl text-sm font-bold">
+                    Save
+                  </button>
+                  <button onClick={() => { setShowWeightInput(false); setWeightInput(''); }} className="px-4 py-3 bg-[rgba(255,255,255,0.05)] text-text-secondary rounded-xl text-sm font-bold">
+                    ✕
+                  </button>
                 </div>
-                <span className="text-[11px] text-text-secondary font-semibold uppercase tracking-widest">Sleep</span>
               </div>
-              <div className="flex items-baseline gap-1">
-                <span className={`text-xl font-bold tracking-tight ${todayLog.sleepHrs >= 7 ? 'text-accent-success' : todayLog.sleepHrs > 0 ? 'text-accent-fat' : 'text-text-primary'}`}>
-                  {todayLog.sleepHrs || '—'}
-                </span>
-                <span className="text-xs font-medium text-text-secondary">/ 7-9 hrs</span>
-              </div>
-            </div>
+            ) : (
+              <button
+                onClick={() => setShowWeightInput(true)}
+                className="w-full p-4 flex items-center justify-center gap-2 text-[13px] font-bold text-text-secondary hover:text-text-primary hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+              >
+                + Log today's weight
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Weight Chart */}
-        <div className="animate-slide-up stagger-6 mb-5">
-          <WeightChart data={weightHistory} />
-        </div>
-
-        {/* Weight Input */}
-        <div className="animate-slide-up stagger-6 mb-8">
-          {showWeightInput ? (
-            <div className="glass-card p-5 animate-fade-in-scale">
-              <h3 className="text-sm font-semibold text-text-primary mb-4 tracking-tight">Log Today's Weight</h3>
-              <div className="flex gap-3">
-                <input
-                  type="number"
-                  value={weightInput}
-                  onChange={(e) => setWeightInput(e.target.value)}
-                  placeholder="e.g. 78.5"
-                  step="0.1"
-                  min="30"
-                  max="300"
-                  autoFocus
-                  className="flex-1 bg-bg-input border border-glass-border rounded-xl px-4 py-3 text-sm font-medium text-text-primary placeholder-text-tertiary outline-none focus:border-accent-primary/60 focus:bg-[rgba(255,255,255,0.02)] transition-colors"
-                  onKeyDown={(e) => e.key === 'Enter' && handleWeightSubmit()}
-                />
-                <button
-                  onClick={handleWeightSubmit}
-                  className="px-5 py-3 bg-accent-primary text-white rounded-xl text-sm font-semibold hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-accent-primary/25"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => { setShowWeightInput(false); setWeightInput(''); }}
-                  className="px-4 py-3 bg-[rgba(255,255,255,0.06)] text-text-secondary rounded-xl text-sm font-semibold hover:bg-[rgba(255,255,255,0.1)] hover:text-text-primary active:scale-95 transition-all"
-                >
-                  ✕
-                </button>
-              </div>
-            </div>
-          ) : (
-            <button
-              onClick={() => setShowWeightInput(true)}
-              className="w-full glass-card p-5 flex items-center justify-center gap-2 text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-[rgba(255,255,255,0.08)] transition-all group"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="opacity-70 group-hover:opacity-100 transition-opacity">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-              Log today's weight
-            </button>
-          )}
-        </div>
       </div>
     </div>
   );

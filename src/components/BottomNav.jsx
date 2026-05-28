@@ -44,7 +44,7 @@ export default function BottomNav() {
   ];
 
   return (
-    <div className="glass-nav pb-safe-bottom">
+    <div className="solid-nav pb-safe-bottom">
       <div className="flex items-center justify-around max-w-lg mx-auto h-[68px] px-2">
         {navItems.map(item => {
           const isActive = activeView === item.id;

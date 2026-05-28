@@ -25,17 +25,12 @@ export default function App() {
   // Loading screen
   if (isLoading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center"
-        style={{ background: 'linear-gradient(180deg, #0a0a0f 0%, #0f0f1a 50%, #13131f 100%)' }}>
+      <div className="fixed inset-0 flex items-center justify-center bg-bg-primary">
         <div className="flex flex-col items-center animate-fade-in">
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
-            style={{
-              background: 'linear-gradient(135deg, #6366F1, #A78BFA)',
-              boxShadow: '0 8px 32px rgba(99, 102, 241, 0.3)'
-            }}>
-            <span className="text-2xl font-bold text-white">#</span>
+          <div className="w-16 h-16 rounded-[20px] flex items-center justify-center mb-6 shadow-[0_8px_32px_rgba(79,70,229,0.25)] bg-accent-primary">
+            <span className="text-3xl font-extrabold text-white">#</span>
           </div>
-          <div className="w-6 h-6 border-2 border-accent-primary/30 border-t-accent-primary rounded-full animate-spin" />
+          <div className="w-8 h-8 border-[3px] border-[rgba(255,255,255,0.05)] border-t-accent-primary rounded-full animate-spin" />
         </div>
       </div>
     );
