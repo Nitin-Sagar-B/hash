@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { verifyPin } from '../lib/crypto.js';
-import { PIN_HASH } from '../config.js';
 
+const PIN_HASH = "0af7d7158becc6d02dc41536107090e77195cf90c556cadb37866528cc94e8a9";
 const PIN_LENGTH = 4;
 const NUMPAD_KEYS = [
   '1', '2', '3',
