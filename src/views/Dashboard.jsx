@@ -295,6 +295,20 @@ export default function Dashboard() {
         </div>
 
       </div>
+      
+      {/* Danger Zone */}
+      <div className="centered-container pb-12 mt-8 animate-slide-up stagger-5">
+        <button 
+          onClick={() => {
+            if (window.confirm("Are you sure you want to wipe all data? This cannot be undone.")) {
+              useAppStore.getState().wipeApp();
+            }
+          }}
+          className="w-full p-4 flex items-center justify-center gap-2 text-[13px] font-bold text-accent-error hover:bg-[rgba(239,51,64,0.1)] rounded-xl transition-colors border border-[rgba(239,51,64,0.2)]"
+        >
+          Reset App Data
+        </button>
+      </div>
     </div>
   );
 }

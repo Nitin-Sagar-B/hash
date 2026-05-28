@@ -132,3 +132,15 @@ export function createEmptyDayLog(date) {
     notes: ''
   };
 }
+
+export async function clearAllData() {
+  const db = await getDB();
+  const tx = db.transaction(['settings', 'dayLogs', 'weightLog', 'chatHistory'], 'readwrite');
+  await Promise.all([
+    tx.objectStore('settings').clear(),
+    tx.objectStore('dayLogs').clear(),
+    tx.objectStore('weightLog').clear(),
+    tx.objectStore('chatHistory').clear()
+  ]);
+  await tx.done;
+}

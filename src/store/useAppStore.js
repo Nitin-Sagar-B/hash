@@ -4,7 +4,8 @@ import {
   saveMessage, getMessages, clearMessages,
   saveSetting, getSetting,
   saveWeight, getWeightHistory,
-  getTodayDate, createEmptyDayLog
+  getTodayDate, createEmptyDayLog,
+  clearAllData
 } from '../lib/db.js';
 import { calculateMacros, DEFAULT_PROFILE } from '../lib/nutrition.js';
 
@@ -67,25 +68,43 @@ export const useAppStore = create((set, get) => ({
     }
   },
   applyDashboardUpdate: async (data) => {
-    if (!data?.today) return;
-    const current = get().todayLog;
-    const t = data.today;
+    // Handle legacy format (data.today) or new format (data.log + data.date)
+    const logData = data.log || data.today;
+    if (!logData) return;
+    
+    const targetDate = data.date || getTodayDate();
+    
+    let current;
+    if (targetDate === getTodayDate()) {
+      current = get().todayLog;
+    } else {
+      current = await getDayLog(targetDate) || createEmptyDayLog(targetDate);
+    }
+
     const updated = {
       ...current,
-      caloriesConsumed: t.calories_consumed ?? current.caloriesConsumed,
-      proteinG: t.protein_consumed_g ?? current.proteinG,
-      fatG: t.fat_consumed_g ?? current.fatG,
-      carbsG: t.carbs_consumed_g ?? current.carbsG,
-      fiberG: t.fiber_consumed_g ?? current.fiberG,
-      waterMl: t.water_consumed_ml ?? current.waterMl,
-      steps: t.steps_today ?? current.steps,
-      sleepHrs: t.sleep_hrs ?? current.sleepHrs,
-      workoutDone: t.workout_done ?? current.workoutDone,
-      workoutDetails: t.workout_details ?? current.workoutDetails,
+      caloriesConsumed: logData.calories_consumed ?? current.caloriesConsumed,
+      proteinG: logData.protein_consumed_g ?? current.proteinG,
+      fatG: logData.fat_consumed_g ?? current.fatG,
+      carbsG: logData.carbs_consumed_g ?? current.carbsG,
+      fiberG: logData.fiber_consumed_g ?? current.fiberG,
+      waterMl: logData.water_consumed_ml ?? current.waterMl,
+      steps: logData.steps_today ?? current.steps,
+      sleepHrs: logData.sleep_hrs ?? current.sleepHrs,
+      workoutDone: logData.workout_done ?? current.workoutDone,
+      workoutDetails: logData.workout_details ?? current.workoutDetails,
     };
-    set({ todayLog: updated });
+
     await saveDayLog(updated);
-    if (get().selectedDate === getTodayDate()) {
+    
+    // Always refresh the dayLogs list to reflect changes
+    get().loadDayLogs();
+
+    if (targetDate === getTodayDate()) {
+      set({ todayLog: updated });
+    }
+    
+    if (get().selectedDate === targetDate) {
       set({ selectedLog: updated });
     }
   },
@@ -210,5 +229,11 @@ export const useAppStore = create((set, get) => ({
     } catch (error) {
       console.error('Failed to hydrate app state:', error);
     }
+  },
+
+  // ==================== Wipe App ====================
+  wipeApp: async () => {
+    await clearAllData();
+    window.location.reload();
   }
 }));
