@@ -88,7 +88,7 @@ export default function Chat() {
             👧
           </div>
           <div className="flex flex-col">
-            <h2 className="text-[14px] font-bold text-text-primary tracking-tight leading-tight">Sparky</h2>
+            <h2 className="text-[14px] font-bold text-text-primary tracking-tight leading-tight">Hash</h2>
             <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest">Active</p>
           </div>
         </div>
@@ -138,9 +138,9 @@ function EmptyChat() {
       <div className="w-20 h-20 rounded-[24px] flex items-center justify-center mb-6 bg-accent-primary shadow-[0_8px_32px_rgba(79,70,229,0.3)]">
         <span className="text-[40px] font-extrabold text-white">👧</span>
       </div>
-      <h3 className="text-2xl font-bold text-text-primary mb-2 tracking-tight">Hey Nit! 👋</h3>
+      <h3 className="text-2xl font-bold text-text-primary mb-2 tracking-tight">Hey Sparky! 👋</h3>
       <p className="text-[14px] text-text-secondary leading-[1.6] font-medium mb-10 px-2">
-        I'm Sparky's AI coach. Log a meal, tell me about your workout, or just say hi.
+        I'm Hash, your AI coach. Log a meal, tell me about your workout, or just say hi.
       </p>
       <div className="flex flex-col gap-3 w-full">
         {['What should I eat for dinner?', 'I just did a 30m run', 'How are my macros?'].map((suggestion, i) => (
