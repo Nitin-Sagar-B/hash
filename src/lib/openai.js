@@ -1,8 +1,7 @@
-import { OPENAI_API_KEY } from '../config.js';
 import { calculateMacros, DEFAULT_PROFILE } from './nutrition.js';
 import { getTodayDate } from './db.js';
 
-const OPENAI_URL = 'https://api.openai.com/v1/chat/completions';
+const OPENAI_URL = '/api/chat';
 
 /**
  * Build the system prompt for Hash with dynamic user data
@@ -97,41 +96,16 @@ export async function streamChat(messages, { onToken, onDone, onDashboardUpdate,
     const response = await fetch(OPENAI_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
-        messages,
-        stream: true,
-        tools: [
-          {
-            type: 'function',
-            function: {
-              name: 'web_search',
-              description: 'Search the web for nutrition information, food macro data, or any other fitness-related query. Use this whenever Nit logs food to get accurate macro values.',
-              parameters: {
-                type: 'object',
-                properties: {
-                  query: {
-                    type: 'string',
-                    description: 'The search query, e.g. "2 chapati roti nutrition macros calories protein"'
-                  }
-                },
-                required: ['query']
-              }
-            }
-          }
-        ],
-        tool_choice: 'auto',
-        temperature: 0.7,
-        max_tokens: 2000
+        messages
       })
     });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(`OpenAI API error: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
+      throw new Error(`API error: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
     }
 
     const reader = response.body.getReader();
