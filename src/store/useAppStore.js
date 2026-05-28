@@ -115,6 +115,10 @@ export const useAppStore = create((set, get) => ({
       return { messages };
     });
   },
+  clearChat: async () => {
+    await clearMessages();
+    set({ messages: [] });
+  },
   setStreaming: (streaming) => set({ isStreaming: streaming }),
 
   // ==================== Log History ====================

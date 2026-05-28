@@ -15,6 +15,8 @@ export default function Chat() {
   const todayLog = useAppStore(s => s.todayLog);
   const dayLogs = useAppStore(s => s.dayLogs);
 
+  const clearChat = useAppStore(s => s.clearChat);
+
   const messagesEndRef = useRef(null);
   const scrollContainerRef = useRef(null);
 
@@ -78,7 +80,9 @@ export default function Chat() {
   return (
     <div className="flex flex-col h-full bg-bg-primary">
       {/* Solid Chat Header */}
-      <div className="solid-header flex items-center justify-center py-4 relative z-10">
+      <div className="solid-header flex items-center justify-between px-4 py-4 relative z-10">
+        <div className="w-[60px]" /> {/* Spacer for centering */}
+        
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-extrabold shadow-lg shadow-accent-primary/20 bg-accent-primary text-white">
             #
@@ -87,6 +91,17 @@ export default function Chat() {
             <h2 className="text-[14px] font-bold text-text-primary tracking-tight leading-tight">Hash</h2>
             <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest">Active</p>
           </div>
+        </div>
+        
+        <div className="w-[60px] flex justify-end">
+          {displayMessages.length > 0 && (
+            <button 
+              onClick={clearChat}
+              className="text-[11px] font-bold text-text-secondary hover:text-accent-primary transition-colors uppercase tracking-wider bg-[rgba(255,255,255,0.05)] px-3 py-1.5 rounded-lg"
+            >
+              Clear
+            </button>
+          )}
         </div>
       </div>
 
