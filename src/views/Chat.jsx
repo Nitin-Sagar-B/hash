@@ -91,11 +91,11 @@ export default function Chat() {
       </div>
 
       {/* Messages Area */}
-      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-5 py-6 no-scrollbar">
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto py-6 no-scrollbar centered-layout">
         {displayMessages.length === 0 ? (
           <EmptyChat />
         ) : (
-          <div className="w-full max-w-lg mx-auto flex flex-col gap-y-2">
+          <div className="centered-container flex flex-col gap-y-2">
             {displayMessages.map((msg, idx) => (
               <ChatMessage
                 key={msg.timestamp || idx}

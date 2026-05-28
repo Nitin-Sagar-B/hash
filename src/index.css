@@ -2,30 +2,32 @@
 
 /* ============================================
    Hash — Design System & Tokens
-   Pantone Black 6 C & Section Architecture
+   Pantone Red-Black Theme & Outfit Font
    ============================================ */
 
 @theme {
-  /* True Pantone Dark Navy/Black Palette */
-  --color-bg-primary: #101820; /* Pantone Black 6 C */
-  --color-bg-surface: #1A232C; /* Pantone 432 C (Lighter for sections) */
-  --color-bg-elevated: #212C37; /* For active/hover states */
-  --color-bg-input: #151E28;
+  /* True Red-Black Palette */
+  --color-bg-primary: #09090B; /* Deep Pitch Black */
+  --color-bg-surface: #18181B; /* Matte Charcoal for cards */
+  --color-bg-elevated: #27272A; /* For active/hover states */
+  --color-bg-input: #121214;
 
-  --color-text-primary: #F0F2F5;
-  --color-text-secondary: #9AA6B2;
-  --color-text-tertiary: #677582;
+  --color-text-primary: #FAFAFA;
+  --color-text-secondary: #A1A1AA;
+  --color-text-tertiary: #71717A;
 
-  /* Vivid Pantone-inspired Accents */
-  --color-accent-calories: #FF4D4D; /* Vivid Red */
-  --color-accent-protein: #00E676; /* Vibrant Green */
-  --color-accent-fat: #FFB300; /* Amber */
-  --color-accent-carbs: #B388FF; /* Deep Purple */
-  --color-accent-fiber: #F06292; /* Pink */
-  --color-accent-water: #40C4FF; /* Light Blue */
-  --color-accent-primary: #4F46E5; /* Vibrant Indigo */
+  /* Primary Accent: Pantone Red 032 C */
+  --color-accent-primary: #EF3340; 
   --color-accent-success: #10B981;
-  --color-accent-error: #F43F5E;
+  --color-accent-error: #EF3340; /* Match primary for consistency in this theme */
+
+  /* Cohesive Macro Colors (Adjusted for Red/Black Theme) */
+  --color-accent-calories: #EF3340; /* Pantone Red */
+  --color-accent-protein: #FCA5A5; /* Light Red/Pink */
+  --color-accent-fat: #FDE047; /* Yellow to pop */
+  --color-accent-carbs: #D4D4D8; /* Silver/White */
+  --color-accent-fiber: #FDA4AF; /* Rose */
+  --color-accent-water: #7DD3FC; /* Sharp Ice Blue */
 
   /* Structural Rounding */
   --radius-sm: 8px;
@@ -48,7 +50,7 @@
 }
 
 html {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -87,16 +89,16 @@ body {
   background: var(--color-bg-surface);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .section-header {
-  padding: 16px 20px 8px;
-  font-size: 13px;
-  font-weight: 700;
+  padding: 18px 22px 10px;
+  font-size: 14px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   color: var(--color-text-secondary);
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
@@ -105,7 +107,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 16px 22px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   transition: background-color 0.2s;
 }
@@ -116,14 +118,14 @@ body {
 
 .solid-nav {
   background: var(--color-bg-surface);
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.5);
 }
 
 .solid-header {
   background: var(--color-bg-surface);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* ============================================
@@ -187,12 +189,12 @@ body {
   background: var(--color-accent-primary);
   color: white;
   border-radius: 20px 20px 4px 20px;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 4px 16px rgba(239, 51, 64, 0.25);
 }
 
 .chat-message-hash {
   background: var(--color-bg-surface);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 20px 20px 20px 4px;
 }
 
@@ -223,4 +225,16 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+/* Global Centering Wrapper Utility */
+.centered-layout {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.centered-container {
+  width: 100%;
+  max-width: 500px;
+  padding: 0 24px;
 }

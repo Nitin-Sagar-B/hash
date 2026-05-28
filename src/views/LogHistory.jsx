@@ -11,8 +11,8 @@ export default function LogHistory() {
   }, [loadDayLogs]);
 
   return (
-    <div className="flex-1 overflow-y-auto pb-28 no-scrollbar">
-      <div className="w-[calc(100%-40px)] max-w-[500px] mx-auto pt-6 sm:pt-8">
+    <div className="flex-1 overflow-y-auto pb-28 no-scrollbar centered-layout">
+      <div className="centered-container pt-6 sm:pt-8">
         
         {/* Header */}
         <div className="mb-6 animate-slide-up stagger-1">

@@ -32,9 +32,9 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="flex-1 overflow-y-auto pb-28 no-scrollbar">
-      {/* Bulletproof container: exactly 20px padding on each side on small screens, max 500px wide */}
-      <div className="w-[calc(100%-40px)] max-w-[500px] mx-auto pt-6 sm:pt-8">
+    <div className="flex-1 overflow-y-auto pb-28 no-scrollbar centered-layout">
+      {/* Bulletproof container: exactly 24px padding on each side on small screens, max 500px wide */}
+      <div className="centered-container pt-6 sm:pt-8">
 
         {/* Header */}
         <div className="mb-6 animate-slide-up stagger-1">
