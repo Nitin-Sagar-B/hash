@@ -97,7 +97,7 @@ export default function Chat() {
       updateLastMessage('Oops, something went wrong 😅 Try again?');
       setStreaming(false);
     }
-  }, [isStreaming, addMessage, updateLastMessage, setStreaming, applyDashboardUpdate, userProfile, todayLog, dayLogs]);
+  }, [isStreaming, addMessage, updateLastMessage, setStreaming, applyDashboardUpdate, userProfile, selectedLog, selectedDate, dayLogs]);
 
   const displayMessages = messages.filter(m => m.role !== 'system');
 
