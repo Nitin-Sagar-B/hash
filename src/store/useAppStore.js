@@ -67,6 +67,19 @@ export const useAppStore = create((set, get) => ({
       set({ selectedLog: updated });
     }
   },
+  updateSelectedLogManual: async (updates) => {
+    const targetDate = get().selectedDate;
+    const current = await getDayLog(targetDate) || createEmptyDayLog(targetDate);
+    const updated = { ...current, ...updates };
+    await saveDayLog(updated);
+    get().loadDayLogs();
+    if (targetDate === getTodayDate()) {
+      set({ todayLog: updated });
+    }
+    if (get().selectedDate === targetDate) {
+      set({ selectedLog: updated });
+    }
+  },
   applyDashboardUpdate: async (data) => {
     // Handle legacy format (data.today) or new format (data.log + data.date)
     const logData = data.log || data.today;

@@ -14,6 +14,7 @@ export default function Dashboard() {
   const weightHistory = useAppStore(s => s.weightHistory);
   const streaks = useAppStore(s => s.streaks);
   const updateWeight = useAppStore(s => s.updateWeight);
+  const updateSelectedLogManual = useAppStore(s => s.updateSelectedLogManual);
   
   const [showWeightInput, setShowWeightInput] = useState(false);
   const [weightInput, setWeightInput] = useState('');
@@ -159,7 +160,13 @@ export default function Dashboard() {
         <div className="section-block mb-6 animate-slide-up stagger-4">
           <div className="section-header">Daily Goals</div>
           
-          <div className="section-row">
+          <div 
+            className="section-row cursor-pointer hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+            onClick={() => {
+              const val = window.prompt("Enter total steps:", selectedLog.steps);
+              if (val !== null && !isNaN(parseInt(val))) updateSelectedLogManual({ steps: parseInt(val) });
+            }}
+          >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">🚶</div>
               <span className="text-[14px] font-semibold text-text-primary">Steps</span>
@@ -176,7 +183,13 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="section-row">
+          <div 
+            className="section-row cursor-pointer hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+            onClick={() => {
+              const val = window.prompt("Enter total water (ml):", selectedLog.waterMl);
+              if (val !== null && !isNaN(parseInt(val))) updateSelectedLogManual({ waterMl: parseInt(val) });
+            }}
+          >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">💧</div>
               <span className="text-[14px] font-semibold text-text-primary">Water</span>
@@ -193,7 +206,13 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="section-row">
+          <div 
+            className="section-row cursor-pointer hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+            onClick={() => {
+              const val = window.prompt("Enter total fiber (g):", selectedLog.fiberG);
+              if (val !== null && !isNaN(parseInt(val))) updateSelectedLogManual({ fiberG: parseInt(val) });
+            }}
+          >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">🥬</div>
               <span className="text-[14px] font-semibold text-text-primary">Fiber</span>
@@ -209,47 +228,22 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* SECTION: INSIGHTS */}
-        <div className="section-block mb-6 animate-slide-up stagger-5">
-          <div className="section-header">Insights & Streaks</div>
           
-          <div className="section-row">
+          <div 
+            className="section-row cursor-pointer hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+            onClick={() => {
+              const isDone = window.confirm(selectedLog.workoutDone ? "Mark workout as incomplete?" : "Mark workout as complete?");
+              if (isDone) updateSelectedLogManual({ workoutDone: !selectedLog.workoutDone });
+            }}
+          >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">🏋️</div>
-              <span className="text-[14px] font-semibold text-text-primary">Workouts</span>
+              <span className="text-[14px] font-semibold text-text-primary">Workout</span>
             </div>
-            <div className="text-right">
-              <span className="text-[15px] font-bold text-text-primary">{streaks.trainingDaysThisWeek} <span className="text-[12px] font-medium text-text-tertiary">/ 4 days</span></span>
-              {selectedLog.workoutDone && (
-                <div className="text-[10px] font-bold text-accent-success uppercase tracking-wider mt-1 flex items-center justify-end gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent-success animate-pulse-subtle" />
-                  Logged
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="section-row">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">🔥</div>
-              <span className="text-[14px] font-semibold text-text-primary">Protein Streak</span>
-            </div>
-            <div className="text-right">
-              <span className="text-[15px] font-bold text-accent-success">{streaks.proteinGoalHitStreak} <span className="text-[12px] font-medium text-text-tertiary">days</span></span>
-            </div>
-          </div>
-
-          <div className="section-row">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.03)] flex items-center justify-center text-sm">😴</div>
-              <span className="text-[14px] font-semibold text-text-primary">Sleep</span>
-            </div>
-            <div className="text-right">
-              <span className={`text-[15px] font-bold ${selectedLog.sleepHrs >= 7 ? 'text-accent-success' : 'text-text-primary'}`}>
-                {selectedLog.sleepHrs || '—'} <span className="text-[12px] font-medium text-text-tertiary">/ 7-9 hrs</span>
-              </span>
+            <div className="text-right flex items-center gap-3">
+              <div className={`w-8 h-8 rounded-full border-2 border-[rgba(255,255,255,0.05)] flex items-center justify-center transition-all duration-300 ${selectedLog.workoutDone ? 'bg-accent-success border-accent-success' : 'bg-transparent'}`}>
+                 {selectedLog.workoutDone && <span className="text-white text-xs">✓</span>}
+              </div>
             </div>
           </div>
         </div>
